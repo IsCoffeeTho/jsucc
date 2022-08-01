@@ -1,3 +1,19 @@
+class ExceptionalSUCC {
+	constructor(file, line, col)
+	{
+		this.file = file;
+		this.line = line;
+		this.col = col;
+		
+		this.format = "Exception at __FILE__";
+	}
+
+	toString()
+	{
+		return format.replace("__FILE__", `${this.file}: line:${this.line} col:${this.col}`);
+	}
+}
+
 var _utilConst = {
 	fileExtension : ".succ",
 	whyNot: ""
@@ -50,6 +66,8 @@ class DataFile
 	{
 		path = Utilities.MakeValidPath(path);
 		this.FilePath = path;
+		this.data = "";
+		this.asJSON = {};
 	}
 
 	Set(namespace="", json={})
@@ -63,7 +81,51 @@ class DataFile
 	}
 }
 
+const ParsingLogic = {
+	Node: class Node {
+
+		constructor (rawText="", file)
+		{
+			if (!file)
+				throw new ArgumentNullException("Nodes must belong to a file");
+			this.File = file;
+			this.FileStyleRef = file;
+		}
+	},
+	DataConverter: class DataConverter {
+		static CheckNewSiblingForErrors(child, newParent, dataFile, lineNumber)
+		{
+			var sibling = newParent.ChildNodes[0];
+
+			// if there is a mismatch between the new node's indentation and its sibling's
+			if (child.IndentationLevel != sibling.IndentationLevel)
+				throw new InvalidFileStructureException(dataFile, lineNumber, "Line did not have the same indentation as its assumed sibling");
+
+
+			// if there is a mismatch between the new node's type and its sibling's
+			if (newParent.ChildNodeType == NodeChildrenType.key && !(typeof child == KeyNode)
+				|| newParent.ChildNodeType == NodeChildrenType.list && !(typeof child == ListNode)
+				|| newParent.ChildNodeType == NodeChildrenType.multiLineString
+				|| newParent.ChildNodeType == NodeChildrenType.none)
+				throw new InvalidFileStructureException(dataFile, lineNumber, `Line did not match the child type of its parent`);
+		}
+
+		static DataLineType = { none: 0, key: 1, list: 2 };
+		static GetDataLineType(line="")
+		{
+			var trimmed = line.trim();
+			if (trimmed.length == 0) return this.DataLineType.none;
+			if (trimmed[0] == '#') return this.DataLineType.none;
+			if (trimmed[0] == '-') return this.DataLineType.list;
+			if (trimmed.match(/:/g)) return this.DataLineType.key;
+
+			return this.DataLineType.none;
+		}
+	}
+}
+
 module.export = {
 	DataFile,
-	Utilities
+	Utilities,
+	ParsingLogic
 }

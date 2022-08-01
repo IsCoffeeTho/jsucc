@@ -3,7 +3,7 @@ declare class DataFile
     protected FilePath: string;
     constructor(path: string, defaultFileText?: string);
     Set(namespace: string, json: {}): void;
-    Get(namespace: string, defaultValue?: null): object;
+    Get(namespace: string, defaultValue?: any): object;
 }
 
 declare class Utilities

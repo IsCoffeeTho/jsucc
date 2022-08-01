@@ -78,43 +78,26 @@ Not only are SUCC files easy to work with in a text editor, they're easy to work
 ```js
 const { DataFiles } = require("jsucc");
 
-class Weapon
-{
-    constructor (options = {name, damage, attackSpeed}) {
-        this.name = options.name;
-        this.damage = options.damage;
-        this.attackSpeed = options.attackSpeed;
-    }
-
-    static default() {
-        return new weapon({
-            name : "fists",
-            damage : 1,
-            attackSpeed : 1.8 
-	    });
-    }
-}
-
 class Program
 {
     static Main()
     {
         this.weapons = {
-            new weapon({
+            {
                 name : "sword",
                 damage : 10,
                 attackSpeed : 1
-            }),
-            new weapon({
+            },
+            {
                 name : "dagger",
                 damage : 6,
                 attackSpeed : 1.3
-            }),
-            new weapon({
+            },
+            {
                 name : "axe",
                 damage : 20,
                 attackSpeed : 0.4
-            })
+            }
         };
 
         var file = new DataFile("weaponsFile");
@@ -139,7 +122,7 @@ var weaponsList = file.Get("weapons");
 But it can be *even easier.* You just do
 
 ```js
-var weaponsList = file.Get("weapons", weapon.default());
+var weaponsList = file.Get("weapons", {name:"fists", damage:1, attackSpeed:1.8});
 ```
 
 SUCC will check if a value called "weapons" exists in the file. If so, it will read the file and give you that data. If not, it will save `defaultValue` to the file and return it to you.

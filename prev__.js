@@ -54,7 +54,7 @@ class SUCC
 
 		var obj = {};
 
-		SUCCs = SUCCs.replace(/#[^\n]*\n/g, `\n`).replace(/(\s)+\n/g, `\n`);
+		SUCCs = SUCCs.replace(/ {0,}(#[^\n]*){0,1}\n/g, `\n`).replace(/(\s)+\n/g, `\n`);
 
 		SUCCs = SUCCs.replace(/(^|\n)(\w+):(((\n {4}-)+ {0,}(\n {8}[^\n]+)+)+)/g, (m, n0, g1, g2) => {
 

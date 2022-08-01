@@ -1,6 +1,6 @@
 {
   "name": "jsucc",
-  "version": "1.0.0",
+  "version": "1.",
   "description": "Allows conversion from JSON to SUCC.",
   "main": "index.js",
   "scripts": {
