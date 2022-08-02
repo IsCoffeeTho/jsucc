@@ -1,16 +1,9 @@
 class ExceptionalSUCC {
-	constructor(file, line, col)
-	{
-		this.file = file;
-		this.line = line;
-		this.col = col;
-		
-		this.format = "Exception at __FILE__";
-	}
-
-	toString()
-	{
-		return format.replace("__FILE__", `${this.file}: line:${this.line} col:${this.col}`);
+	constructor (reason=``) {
+		if (reason)
+			this.message = `SUCCException: ${reason}`
+		else
+			this.message = `SUCCException`
 	}
 }
 
@@ -54,19 +47,17 @@ class Utilities
 		return (_utilConst.whyNot == "");
 	}
 
-	static whyNot()
+	static get whyNot()
 	{
 		return _utilConst.whyNot || "SUCCessful";
 	}
 }
 
-class DataFile
+class MemoryDataFile
 {
-	constructor (path="", defaultFileText="")
+	constructor (defaultFileText="")
 	{
-		path = Utilities.MakeValidPath(path);
-		this.FilePath = path;
-		this.data = "";
+		this.data = defaultFileText;
 		this.asJSON = {};
 	}
 
@@ -81,51 +72,39 @@ class DataFile
 	}
 }
 
-const ParsingLogic = {
-	Node: class Node {
+class DataFile
+{
+	constructor (path="", defaultFileText="")
+	{
+		path = Utilities.MakeValidPath(path);
+		this.FilePath = path;
+		this.data = defaultFileText;
+		this.asJSON = {};
+	}
 
-		constructor (rawText="", file)
-		{
-			if (!file)
-				throw new ArgumentNullException("Nodes must belong to a file");
-			this.File = file;
-			this.FileStyleRef = file;
-		}
-	},
-	DataConverter: class DataConverter {
-		static CheckNewSiblingForErrors(child, newParent, dataFile, lineNumber)
-		{
-			var sibling = newParent.ChildNodes[0];
+	Set(namespace="", json={})
+	{
 
-			// if there is a mismatch between the new node's indentation and its sibling's
-			if (child.IndentationLevel != sibling.IndentationLevel)
-				throw new InvalidFileStructureException(dataFile, lineNumber, "Line did not have the same indentation as its assumed sibling");
+	}
 
+	Get(namespace="", defaultValue=null)
+	{
 
-			// if there is a mismatch between the new node's type and its sibling's
-			if (newParent.ChildNodeType == NodeChildrenType.key && !(typeof child == KeyNode)
-				|| newParent.ChildNodeType == NodeChildrenType.list && !(typeof child == ListNode)
-				|| newParent.ChildNodeType == NodeChildrenType.multiLineString
-				|| newParent.ChildNodeType == NodeChildrenType.none)
-				throw new InvalidFileStructureException(dataFile, lineNumber, `Line did not match the child type of its parent`);
-		}
-
-		static DataLineType = { none: 0, key: 1, list: 2 };
-		static GetDataLineType(line="")
-		{
-			var trimmed = line.trim();
-			if (trimmed.length == 0) return this.DataLineType.none;
-			if (trimmed[0] == '#') return this.DataLineType.none;
-			if (trimmed[0] == '-') return this.DataLineType.list;
-			if (trimmed.match(/:/g)) return this.DataLineType.key;
-
-			return this.DataLineType.none;
-		}
 	}
 }
 
-module.export = {
-	DataFile,
-	Utilities,
-	ParsingLogic
+class Node {
+
+	constructor (rawText="", file)
+	{
+		if (!file)
+			throw new ExceptionalSUCC("Nodes must belong to a file.");
+		this.File = file;
+		this.FileStyleRef = file;
+	}
+}
+
+module.exports = {
+	MemoryDataFile,
+	DataFile
 }
