@@ -4,7 +4,7 @@
   "description": "Allows conversion from JSON to SUCC.",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/index.js"
+    "test": "node SUCC.tests/index.js"
   },
   "repository": {
     "type": "git",

@@ -30,15 +30,12 @@ function diagnose(title, testFunc, expected)
 function beginTest()
 {
 	traceTitle("Invalid Syntax");
-
 	diagnose("InvalidKey", () => {
 		return tUtil.PerformSyntaxCheck("this line doesn't have a colon to indicate key/value");
 	}, "");
-
 	diagnose("DuplicateKeys", () => {
 		return tUtil.PerformSyntaxCheck("key: value\nkey: value2");
 	}, "");
-
 	traceClean();
 
 	traceEnd();

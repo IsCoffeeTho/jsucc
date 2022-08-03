@@ -1,10 +1,10 @@
 # jSUCC
-## Usage
+## Unit Example
 ```js
-const { DataFile, MemoryDataFile } = require("jsucc");
+const { DataFile, MemoryDataFile, Utilities } = require("jsucc");
 
-// initialize settings
-const APP_SETTINGS = new DataFile("settings.succ");
+// load settings file
+const SETTINGS = new DataFile("settings.succ", "test: key");
 ```
 
 ```js
