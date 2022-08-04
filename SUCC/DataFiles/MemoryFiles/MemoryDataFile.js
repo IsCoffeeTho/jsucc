@@ -1,3 +1,4 @@
+const ReadableWritableDataFile = require("../Abstractions/ReadableWritableDataFile");
 
 class MemoryDataFile extends ReadableWritableDataFile
 {

@@ -1,3 +1,4 @@
+const ReadableDataFile = require("./ReadableDataFile");
 
 class ReadableWritableDataFile extends ReadableDataFile
 {
@@ -6,3 +7,5 @@ class ReadableWritableDataFile extends ReadableDataFile
 		super(defaultFileText);
 	}
 }
+
+module.exports = ReadableWritableDataFile;

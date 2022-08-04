@@ -1,3 +1,6 @@
+const ReadableDataFile = require("../Abstractions/ReadableDataFile");
+const ReadOnlyDataFile = require("../ReadOnlyDataFile");
+
 class MemoryReadOnlyDataFile extends ReadableDataFile
 {
 	#__MemoryTextData;
@@ -22,3 +25,5 @@ class MemoryReadOnlyDataFile extends ReadableDataFile
 		return new ReadOnlyDataFile(path);
 	}
 }
+
+module.exports = MemoryReadOnlyDataFile;

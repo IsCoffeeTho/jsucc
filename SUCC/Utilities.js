@@ -5,9 +5,12 @@ var _utilConst = {
 
 class Utilities
 {
-	static FileExtension(Extension=_utilConst.fileExtension)
+	static set FileExtension(Extension=String)
 	{
-		_utilConst.fileExtension = Extension;
+		_utilConst.fileExtension = Extension || _utilConst.fileExtension;
+	}
+	static get FileExtension ()
+	{
 		return _utilConst.fileExtension;
 	}
 

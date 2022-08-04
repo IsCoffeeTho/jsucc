@@ -1,13 +1,16 @@
-const MemoryReadOnlyDataFile = require("../MemoryFiles/MemoryReadOnlyDataFile");
+const ArgumentException = require("../../Exceptions");
+
+class RawNodes {
+	constructor ()
+	{
+
+	}
+}
 
 class ReadableDataFile
 {
-	#__TopLevelLines; get TopLevelLines() { return this.#__TopLevelLines; }
-	#__TopLevelNodes; get TopLevelNodes() { return this.#__TopLevelNodes; }
-
-	get Identifier() { return this.__Identifier; }
-	
-	toString() { return this.__Identifier; }
+	#__TopLevelLines;
+	#__TopLevelNodes;
 
 	// DefaultFileCache is provided from the constructor
 
@@ -18,11 +21,16 @@ class ReadableDataFile
 		
 		this.__Identifier = "";
 
-		if (defaultFileText == null)
-			this.DefaultFileCache = null;
-		else
-			this.DefaultFileCache = new MemoryReadOnlyDataFile(defaultFileText, null);
+		this.DefaultFileCache = new RawNodes(defaultFileText);
+		// no need to check for recursion from original repo
 	}
+
+	get TopLevelLines() { return this.#__TopLevelLines; }
+	get TopLevelNodes() { return this.#__TopLevelNodes; }
+
+	get Identifier() { return this.__Identifier; }
+	
+	toString() { return this.__Identifier; }
 
 	Style = FileStyle.Default();
 
@@ -44,11 +52,30 @@ class ReadableDataFile
 	GetTopLevelKeysInOrder()
 	{
 		var keys = [];
+		var count = 0;
 		for (line in this.TopLevelLines)
 		{
-			console.log(line);
+			var node = new Node(line);
+			if (node)
+				keys[count++] = node.Key;
 		}
+
+		return keys;
 	}
+
+	get TopLevelKeys()
+	/* => */ { return this.TopLevelNodes.Keys; }
+
+	KeyExists(key="")
+	/* => */ { return (this.TopLevelNodes.indexOf(key) >= 0); }
+
+	KeyExistsAtPath(path=[""])
+	{
+		if (path.length < 1)
+			throw new ArgumentException(`Path must have a length greater than 0`);
+	}
+
+	
 }
 
 module.exports = ReadableDataFile;

@@ -6,7 +6,6 @@ class Extensions {
 		var lineCount = 0;
 		var lineNumberOfTarget = -1;
 
-
 		function recursivelyCount(lines=[""])
 		{
 			lines.forEach(line => {

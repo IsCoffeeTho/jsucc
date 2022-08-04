@@ -5,7 +5,8 @@
     - [**Rules**](#rules)
 
 ## Discrepencies
-t
+This section describes the specific differences from C# to JS used in this repositiory:
+
 
 &nbsp;
 
