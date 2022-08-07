@@ -1,3 +1,5 @@
+const { StringBuilder } = require("../../System")
+
 class DataConverter {
 	static GetLineTextIncludingChildLines(line="")
 	/* => */ { return DataConverter.SuccFromDataStructure([line]); }
@@ -22,3 +24,5 @@ class DataConverter {
 		
 	}
 }
+
+module.exports = DataConverter;

@@ -18,7 +18,7 @@ const Guid = {
 	}
 };
 
-class StringBuilder {
+class StringBuilder { // Equivelant to a char** in C, allows the ability to pass a string by reference instead of value
 	constructor()
 	{
 		this._str = "";
@@ -35,9 +35,18 @@ class StringBuilder {
 	}
 }
 
+function constructor(type="")
+{
+	if (type.replace(/[A-Z][a-z]_/g, "").length > 0)
+		throw new Error(`System.constructor(type): type has to be a contructor a valid name.`);
+
+	return eval(`new ${type}()`);
+}
+
 module.exports = {
 	Guid,
 	Text: {
 		StringBuilder
-	}
+	},
+	constructor
 };

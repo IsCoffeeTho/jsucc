@@ -1,5 +1,3 @@
-const { ArgumentOutOfRangeException } = require("../../Exceptions");
-
 class Line
 {
 	constructor (rawText="")
@@ -10,7 +8,7 @@ class Line
 	get IndentationLevel() { return this.RawText.match(/^ {0,}/g)[0].length; }
 	set IndentationLevel(value)
 	{
-		if (value < 0) throw new ArgumentOutOfRangeException(`Node indents must be at least 0. You tried to set it to ${value}`);
+		if (value < 0) throw new RangeError(`Node indents must be at least 0. You tried to set it to ${value}`);
 
 		var indent = this.IndentationLevel;
 		if (value == indent) return;

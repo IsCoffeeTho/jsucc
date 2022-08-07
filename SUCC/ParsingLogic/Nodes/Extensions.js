@@ -8,9 +8,9 @@ class Extensions {
 
 		function recursivelyCount(lines=[""])
 		{
-			lines.forEach(line => {
+			lines.forEach((line) => {
 				lineCount++;
-	
+
 				if (line == targetNode)
 				{
 					lineNumberOfTarget = lineCount;

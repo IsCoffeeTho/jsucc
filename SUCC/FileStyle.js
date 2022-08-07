@@ -1,5 +1,3 @@
-const { ArgumentOutOfRangeException } = require("./Exception");
-
 class FileStyle {
 	constructor() {
 		this.AlwaysQuotedString = false;
@@ -20,7 +18,7 @@ class FileStyle {
 	set IndentationInterval (value=4)
 	{
 		if (value < 1)
-			throw new ArgumentOutOfRangeException(`IndentationInterval must be at least 1. You tried to set it to ${value}`)
+			throw new RangeError(`IndentationInterval must be at least 1. You tried to set it to ${value}`)
 		else
 			this._IndentationInterval = value;
 	}
@@ -29,7 +27,7 @@ class FileStyle {
 	set SpacesAfterColon (value=1)
 	{
 		if (value < 0)
-			throw new ArgumentOutOfRangeException(`SpacesAfterColon must be at least 0. You tried to set it to ${value}`)
+			throw new RangeError(`SpacesAfterColon must be at least 0. You tried to set it to ${value}`)
 		else
 			this._SpacesAfterColon = value;
 	}
@@ -38,7 +36,7 @@ class FileStyle {
 	set SpacesAfterDash (value=1)
 	{
 		if (value < 0)
-			throw new ArgumentOutOfRangeException(`SpacesAfterDash must be at least 0. You tried to set it to ${value}`)
+			throw new RangeError(`SpacesAfterDash must be at least 0. You tried to set it to ${value}`)
 		else
 			this._SpacesAfterDash = value;
 	}

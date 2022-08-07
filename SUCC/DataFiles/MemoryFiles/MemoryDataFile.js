@@ -1,14 +1,15 @@
 const ReadableWritableDataFile = require("../Abstractions/ReadableWritableDataFile");
+const { Guid } = require("../../../System");
 
 class MemoryDataFile extends ReadableWritableDataFile
 {
 	#__MemoryTextData;
 
-	constructor(rawFileText="", Identifier="", defaultFileText="")
+	constructor (rawFileText="", Identifier="", defaultFileText="")
 	{
 		super(defaultFileText || null);
 		this.#__MemoryTextData = rawFileText || "";
-		this.__Identifier = Identifier || `MemoryReadOnlyDataFile_${NewGuid()}`;
+		this.__Identifier = Identifier || `MemoryDataFile_${Guid.NewGuid()}`;
 		this.ReloadAllData();
 	}
 
@@ -25,3 +26,5 @@ class MemoryDataFile extends ReadableWritableDataFile
 		return new DataFile(path);
 	}
 }
+
+module.exports = MemoryDataFile;

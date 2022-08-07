@@ -9,36 +9,32 @@ function traceClean() {
 	console.log(``);
 }
 
-function traceEnd() {
-	console.log(`${'='.repeat(80)}`);
-}
-
 function diagnose(title, testFunc, expected)
 {
 	var res = testFunc();
 	if (res != expected)
 	{
 		if (expected == "")
-			console.log(`${title.replace(/ /g, ``)}: FAIL KO :(\n>> Found: ${res}\n`);
+			console.log(`${title.replace(/ /g, ``)}: FAIL KO :(\n>> Found: ${res}\n` + (res.stack ? `\n${res.stack}\n` : ''));
 		else
-			console.log(`${title.replace(/ /g, ``)}: FAIL KO :(\n>> Expected: ${expected}\n>> Found: ${res}\n`);
+			console.log(`${title.replace(/ /g, ``)}: FAIL KO :(\n>> Expected: ${expected}\n>> Found: ${res}\n` + (res.stack ? `\n${res.stack}\n` : ''));
+		return false;
 	}
-	else
-		console.log(`${title}: PASS OK :)`);
+	console.log(`${title}: PASS OK :)`);
+	return true;
 }
 
 function beginTest()
 {
-	traceTitle("Invalid Syntax");
-	diagnose("InvalidKey", () => {
-		return tUtil.PerformSyntaxCheck("this line doesn't have a colon to indicate key/value");
+	var pass = true;
+	traceTitle("Testing Module");
+	
+	pass &&= diagnose("", () => {
+		return ``;
 	}, "");
-	diagnose("DuplicateKeys", () => {
-		return tUtil.PerformSyntaxCheck("key: value\nkey: value2");
-	}, "");
-	traceClean();
 
-	traceEnd();
+	traceClean();
+	traceTitle((pass ? `PASS OK :)`: `FAIL KO :(`));
 }
 
 beginTest();

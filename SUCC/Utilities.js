@@ -45,6 +45,8 @@ class Utilities
 	{
 		return _utilConst.whyNot || "SUCCessful";
 	}
+
+	get NullIndicator() { return "null"; }
 }
 
 module.exports = Utilities;

@@ -1,5 +1,6 @@
 const ReadableDataFile = require("../Abstractions/ReadableDataFile");
 const ReadOnlyDataFile = require("../ReadOnlyDataFile");
+const { Guid } = require("../../../System");
 
 class MemoryReadOnlyDataFile extends ReadableDataFile
 {
@@ -9,7 +10,7 @@ class MemoryReadOnlyDataFile extends ReadableDataFile
 	{
 		super(defaultFileText || null);
 		this.#__MemoryTextData = rawFileText || "";
-		this.__Identifier = Identifier || `MemoryReadOnlyDataFile_${NewGuid()}`;
+		this.__Identifier = Identifier || `MemoryReadOnlyDataFile_${Guid.NewGuid()}`;
 	}
 
 	get MemoryTextData() { return this.#__MemoryTextData; }

@@ -1,13 +1,39 @@
-const ArgumentException = require("../../Exceptions");
+const DataConverter = require("../../ParsingLogic/DataConverter");
+const FileStyle = require("./../../FileStyle");
 
-class RawNodes {
-	constructor ()
+class FileCache {
+	constructor (RawFileText="")
+	{
+		this.RAW = RawFileText || "";
+	}
+
+	Get (key="", defaultValue=any)
+	{
+		return this.GetNonGeneric(typeof(key), key, defaultValue || null);
+	}
+
+	GetNonGeneric(type=any, key="", defaultValue=any)
+	{
+		if (!this.KeyExists(key))
+			return defaultValue || null;
+		
+		var node = this.TopLevelNodes[key];
+		return NodeManager.GetNoteData(node, type);
+	}
+
+	GetAtPath (path=[""], defaultValue=any)
 	{
 
 	}
+
+	GetAtPathNonGeneric(key=[""], )
+	{
+
+	}
+
 }
 
-class ReadableDataFile
+class ReadableDataFile extends FileCache
 {
 	#__TopLevelLines;
 	#__TopLevelNodes;
@@ -16,12 +42,13 @@ class ReadableDataFile
 
 	constructor(defaultFileText="")
 	{
+		super(defaultFileText || null);
 		this.#__TopLevelLines = []; // List
 		this.#__TopLevelNodes = {}; // Dictionary
 		
 		this.__Identifier = "";
 
-		this.DefaultFileCache = new RawNodes(defaultFileText);
+		this.DefaultFileCache = new FileCache(defaultFileText);
 		// no need to check for recursion from original repo
 	}
 
@@ -44,7 +71,7 @@ class ReadableDataFile
 	}
 
 	GetRawText()
-	/*=>*/ { return DataConverter.DataStructureFromSucc(this.#__TopLevelLines, this); }
+	/*=>*/ { return DataConverter.DataStructureFromSucc(this.TopLevelLines, this); }
 
 	GetRawLines()
 	/*=>*/ { return this.GetRawText().split("\n"); }
@@ -72,10 +99,45 @@ class ReadableDataFile
 	KeyExistsAtPath(path=[""])
 	{
 		if (path.length < 1)
-			throw new ArgumentException(`Path must have a length greater than 0`);
+			throw new RangeException(`Path must have a length greater than 0`);
+
+		if (!this.KeyExists(path[0]))
+			return false;
+		
+		var topNode = this.TopLevelNodes[path[0]];
+		for (var i = 1; i < path.length; i++)
+		{
+			if (topNode.ContainsChildNode(path[i]))
+				topNode = topNode.GetChildAddressedByName(path[i]);
+			else
+				return false;
+		}
+
+		return true;
 	}
 
-	
+	Get (key="", defaultValue=any)
+	{
+		return this.GetNonGeneric();
+	}
+
+	GetNonGeneric(key="", )
+	{
+
+	}
+
+	GetAtPath (path=[""], defaultValue=any)
+	{
+
+	}
+
+	GetAtPathNonGeneric(key=[""], )
+	{
+
+	}
+
+	TryGet (key="")
+	/* => */ { return this.Get(key, null); }
 }
 
 module.exports = ReadableDataFile;
